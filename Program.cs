@@ -1,4 +1,10 @@
+using TestUkrposhta.Extentions;
+
 var builder = WebApplication.CreateBuilder(args);
+
+IConfiguration configuration = builder.Configuration;
+
+builder.Services.InjectRepositories(configuration);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
