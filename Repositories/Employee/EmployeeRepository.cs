@@ -16,5 +16,18 @@ namespace TestUkrposhta.Repositories
             using var db = _dbConnection;
             var affectedRows = await db.ExecuteAsync(sql, employee);
         }
+
+        public override async Task<IEnumerable<Employee>> GetAllAsync()
+        {
+            var sql =
+                @$"SELECT [Employees].*, [Companies].Name as CompanyName, [Positions].Name as PositionName, [Departaments].Name as DepartamentName 
+                    FROM [Employees]
+	                INNER JOIN [Positions] ON Employees.PositionID = [Positions].ID	
+	                INNER JOIN [Companies] ON Employees.CompanyID = [Companies].ID
+	                INNER JOIN [Departaments] ON Employees.DepartmentID= [Departaments].ID";
+
+            using var db = _dbConnection;
+            return await db.QueryAsync<Employee>(sql);
+        }
     }
 }

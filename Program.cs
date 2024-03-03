@@ -4,7 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 IConfiguration configuration = builder.Configuration;
 
+// Injecting
 builder.Services.InjectRepositories(configuration);
+builder.Services.InjectBusinessServices();
+builder.Services.InjectAutoMapper();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

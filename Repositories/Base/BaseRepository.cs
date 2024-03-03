@@ -17,7 +17,7 @@ namespace TestUkrposhta.Repositories
             _connectionString = connectionString;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync()
+        public async virtual Task<IEnumerable<T>> GetAllAsync()
         {
             var sql = $"SELECT * FROM [{_tableName}]";
 
