@@ -1,9 +1,9 @@
-﻿using TestUkrposhta.Models;
+﻿using TestUkrposhta.DTOs;
 
 namespace TestUkrposhta.BusinessService
 {
     public interface IDepartamentBusinessService
     {
-        Task<IEnumerable<DepartamentReadModel>> GetDepartamentsAsync();
+        Task<IEnumerable<Departament>> GetDepartamentsAsync();
     }
 }

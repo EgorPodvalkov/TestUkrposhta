@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using TestUkrposhta.Models;
+﻿using TestUkrposhta.DTOs;
 using TestUkrposhta.Repositories;
 
 namespace TestUkrposhta.BusinessService
@@ -7,22 +6,23 @@ namespace TestUkrposhta.BusinessService
     public class CompanyBusinessService : ICompanyBusinessService
     {
         private readonly ICompanyRepository _repository;
-        private readonly IMapper _mapper;
 
-        public CompanyBusinessService(ICompanyRepository repository, IMapper mapper)
+        public CompanyBusinessService(ICompanyRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
-        public async Task<CompanyReadModel> GetCompanyAsync()
+        public async Task<Company> GetCompanyAsync(int? companyID = null)
         {
-            // Only 1 company in db
-            const int companyID = 1;
-            var dto = await _repository.GetItemAsync(companyID);
-            var model = _mapper.Map<CompanyReadModel>(dto);
+            // if company is null getting default company
+            const int defaultCompanyID = 1;
 
-            return model;
+            var dto = await _repository.GetItemAsync(companyID ?? defaultCompanyID);
+
+            if (dto is null)
+                throw new Exception($"No company in db with ID {companyID}");
+
+            return dto;
         }
     }
 }

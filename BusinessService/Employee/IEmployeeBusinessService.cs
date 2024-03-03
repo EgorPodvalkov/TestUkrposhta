@@ -1,10 +1,10 @@
-﻿using TestUkrposhta.Models;
+﻿using TestUkrposhta.DTOs;
 
 namespace TestUkrposhta.BusinessService
 {
     public interface IEmployeeBusinessService
     {
         /// <summary> Returns list of employees </summary>
-        Task<IEnumerable<EmployeeReadModel>> GetAllAsync();
+        Task<IEnumerable<Employee>> GetAllAsync();
     }
 }

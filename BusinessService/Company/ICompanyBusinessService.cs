@@ -1,9 +1,9 @@
-﻿using TestUkrposhta.Models;
+﻿using TestUkrposhta.DTOs;
 
 namespace TestUkrposhta.BusinessService
 {
     public interface ICompanyBusinessService
     {
-        Task<CompanyReadModel> GetCompanyAsync();
+        Task<Company> GetCompanyAsync(int? companyID = null);
     }
 }

@@ -1,9 +1,9 @@
-﻿using TestUkrposhta.Models;
+﻿using TestUkrposhta.DTOs;
 
 namespace TestUkrposhta.BusinessService
 {
     public interface IPositionBusinessService
     {
-        Task<IEnumerable<PositionReadModel>> GetPositionsAsync();
+        Task<IEnumerable<Position>> GetPositionsAsync();
     }
 }
