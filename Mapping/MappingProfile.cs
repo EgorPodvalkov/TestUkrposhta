@@ -31,7 +31,18 @@ namespace TestUkrposhta.Mapping
                 .ForMember(model => model.PositionName, opt =>
                     opt.MapFrom(dto => dto.PositionName ?? string.Empty));
 
-
+            // model => dto
+            CreateMap<EmployeeFilterModel, EmployeeFilter>()
+                .ForMember(dto => dto.FullName, opt =>
+                    opt.MapFrom(model => model.FullName))
+                .ForMember(dto => dto.MinSalary, opt =>
+                    opt.MapFrom(model => model.MinSalary))
+                .ForMember(dto => dto.MaxSalary, opt =>
+                    opt.MapFrom(model => model.MaxSalary))
+                .ForMember(dto => dto.PositionID, opt =>
+                    opt.MapFrom(model => model.PositionID))
+                .ForMember(dto => dto.DepartamentID, opt =>
+                    opt.MapFrom(model => model.DepartamentID));
 
             // dto => read model
             CreateMap<Company, CompanyReadModel>()

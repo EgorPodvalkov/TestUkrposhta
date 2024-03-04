@@ -1,0 +1,48 @@
+﻿@model EmployeeFilterDropDownListsModel
+
+<link rel="stylesheet" href="~/css/Employee.css" />
+<script src="~/js/Employee.js"></script>
+
+<fieldset id="filter-section" style="width:100%; padding-bottom:20px;">
+    <table style="width:100%;">
+        <tr>
+            <td align="right">
+                <span class="field-name">Full Name</span>
+                <input id="filter-fullname" type="text" style="width:40%;" placeholder="All" />
+            </td>
+            <td align="right">
+                <span class="field-name">Position</span>
+                <select id="filter-position" style="width:40%;">
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position.ID">@position.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <span class="field-name">Departament</span>
+                <select id="filter-departament" style="width:40%;">
+                    @foreach (var departament in Model.Departaments)
+                    {
+                        <option value="@departament.ID">@departament.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span class="field-name">Min Salary</span>
+                <input id="filter-min-salary" type="number" min="0" step="100" style="width:40%;" placeholder="0" />
+            </td>
+            <td align="right">
+                <span class="field-name">Max Salary</span>
+                <input id="filter-max-salary" type="number" min="0" step="100" style="width:40%;" placeholder="Infinity" />
+            </td>
+            <td align="right">
+                <input type="button" id="filter-button" onclick="onFilterButtonClick()" value="Update Table" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
+<div id="employee-section"></div>

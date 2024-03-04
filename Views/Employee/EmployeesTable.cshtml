@@ -1,0 +1,64 @@
+﻿@model EmployeeTableModel
+@{
+    Layout = null;
+}
+
+<table id="employee-table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Full Name</th>
+            <th>Position</th>
+            <th>Company</th>
+            <th>Departament</th>
+            <th>Birth Date</th>
+            <th>Hire Date</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <tr>
+                <td colspan="10" align="center">
+                    @Model.Error
+                </td>
+            </tr>
+        }
+        // if no error
+        else
+        {
+            @foreach (var employee in Model.Employees)
+            {
+                <tr>
+                    <td>@employee.ID</td>
+                    <td>@employee.FullName</td>
+                    <td>@employee.PositionName</td>
+                    <td>@employee.Salary uah</td>
+                    <td>@employee.CompanyName</td>
+                    <td>@employee.DepartamentName</td>
+                    <td>@employee.BirthDate.ToShortDateString()</td>
+                    <td>@employee.HireDate.ToShortDateString()</td>
+                    <td>@employee.PhoneNumber</td>
+                    <td>@employee.Address</td>
+                    <td>
+                        <a id="employee-@employee.ID" onclick="OpenEmplyeeCard(@employee.ID)">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+            @if (!Model.Employees.Any())
+            {
+                <tr>
+                    <td colspan="10" align="center">
+                        No emplyees finded :(
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
