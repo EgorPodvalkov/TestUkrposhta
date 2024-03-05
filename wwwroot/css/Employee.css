@@ -34,6 +34,6 @@
         text-decoration: underline;
     }
 
-#filter-section td {
+#filter-section td, .card td {
     padding: 5px;
 }

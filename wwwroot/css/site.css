@@ -20,3 +20,11 @@ body {
 .field-name {
     text-align:right;
 }
+
+.filter {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #ebebeb;
+    border-radius: 5px;
+}

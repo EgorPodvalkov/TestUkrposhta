@@ -1,10 +1,22 @@
-﻿$(() => {
+﻿var card;
+
+$(() => {
     onLoadScript();
 });
 
 function onLoadScript() {
     loadEmployeeTable();
     linkEnterToFilterButton();
+    card = $("#employee-card").dialog({
+        classes: {
+            "ui-dialog": "card"
+        },
+        autoOpen: false,
+        title: 'Employee card',
+        width: 700,
+        height: 'auto',
+        modal: true,
+    });
 }
 
 function loadEmployeeTable(filter) {
@@ -76,5 +88,97 @@ function getFilter() {
         maxSalary: maxSalary,
         positionID: positionID,
         departamentID: departamentID,
+    }
+}
+
+function onEmployeeEditButtonClick(employeeID) {
+    openEmplyeeCard(employeeID);
+}
+
+function openEmplyeeCard(employeeID) {
+    card.dialog("option", "title", 'Employee card №' + employeeID);
+    card.dialog("option", "buttons",
+        [
+            {
+                text: "Save",
+                click: () => onCardButtonSaveClick(employeeID)
+            }
+        ]);
+
+    $.ajax({
+        url: '/GetEmployee/' + employeeID,
+        method: 'get',
+        dataType: 'json',
+        success: (employee) => {
+            if (employee.error) {
+                console.log(employee.error);
+                return;
+            }
+            console.log(employee);
+            fillCard(employee);
+            card.dialog("open");
+        }
+    });
+}
+
+function fillCard(employee) {
+    // regular
+    $("#employee-card-fullname").val(employee.fullName);
+    $("#employee-card-salary").val(employee.salary);
+    $("#employee-card-phone").val(employee.phoneNumber);
+    $("#employee-card-address").val(employee.address);
+
+    // date
+    $("#employee-card-birthdate").val(parseDate(employee.birthDate));
+    $("#employee-card-hiredate").val(parseDate(employee.hireDate));
+
+    // dropdownlist
+    $(`#employee-card-departament option[value=${employee.departamentID}]`).attr('selected', 'selected');
+    $(`#employee-card-position option[value=${employee.positionID}]`).attr('selected', 'selected');
+}
+function parseDate(date) {
+    return date.split('T')[0];
+}
+
+function onCardButtonSaveClick(employeeID) {
+    saveEmployee(employeeID);
+}
+
+function saveEmployee(employeeID) {
+    var employee = getEmployeeFromCard(employeeID);
+    console.log(employee);
+    $.ajax({
+        url: '/SaveEmployee/' + employeeID,
+        method: 'put',
+        dataType: 'json',
+        headers: { "Content-Type": "application/json" },
+        data: JSON.stringify(employee),
+        success: (data) => {
+            console.log(data, card);
+            if (data.error) {
+                console.log(data.error);
+                return;
+            }
+            console.log(data, card);
+
+            // refresh table
+            onFilterButtonClick();
+
+            card.dialog("close");
+        }
+    });
+}
+
+function getEmployeeFromCard(employeeID) {
+    return {
+        ID: employeeID,
+        fullName: $("#employee-card-fullname").val(),
+        salary: $("#employee-card-salary").val(),
+        phoneNumber: $("#employee-card-phone").val(),
+        address: $("#employee-card-address").val(),
+        birthDate: $("#employee-card-birthdate").val(),
+        hireDate: $("#employee-card-hiredate").val(),
+        departamentID: $("#employee-card-departament").val(),
+        positionID: $("#employee-card-position").val(),
     }
 }

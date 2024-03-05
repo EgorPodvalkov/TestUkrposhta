@@ -57,7 +57,7 @@ namespace TestUkrposhta.Controllers
             {
                 var model = new EmployeeTableModel
                 {
-                    Error = $"Error 'GetEmployeesTableView' get method: {ex.Message}",
+                    Error = $"Error in GetEmployeesTableView get method: {ex.Message}",
                 };
 
                 // Render Table
@@ -90,11 +90,46 @@ namespace TestUkrposhta.Controllers
             {
                 var model = new EmployeeTableModel
                 {
-                    Error = $"Error \"GetEmployeesTableView\" post method: {ex.Message}",
+                    Error = $"Error in GetEmployeesTableView post method: {ex.Message}",
                 };
 
                 // Render Table
                 return View("EmployeesTable", model);
+            }
+        }
+
+        [HttpGet("GetEmployee/{employeeID}")]
+        public async Task<IActionResult> GetEmployee(int employeeID)
+        {
+            try
+            {
+                var employeeDTO = await _employeeBS.GetEmployeeAsync(employeeID) ?? throw new Exception("Employee not found in db");
+                var employeeModel = _mapper.Map<EmployeeUpdateModel>(employeeDTO);
+
+                return Ok(employeeModel);
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Error = $"Error in GetEmployee/{employeeID}: {ex.Message}" });
+            }
+        }
+
+        [HttpPut("SaveEmployee/{employeeID}")]
+        public async Task<IActionResult> SaveEmployee(int employeeID)
+        {
+            try
+            {
+                var employeeModel = await Request.ReadFromJsonAsync<EmployeeUpdateModel>();
+                var employeeDTO = _mapper.Map<Employee>(employeeModel);
+
+                await _employeeBS.UpdateEmployeeAsync(employeeDTO);
+
+                // Nothing to return
+                return Ok(new { });
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { Error = $"Error in SaveEmployee/{employeeID}: {ex.Message}" });
             }
         }
     }

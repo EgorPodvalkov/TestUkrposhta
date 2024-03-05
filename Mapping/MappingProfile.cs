@@ -31,6 +31,30 @@ namespace TestUkrposhta.Mapping
                 .ForMember(model => model.PositionName, opt =>
                     opt.MapFrom(dto => dto.PositionName ?? string.Empty));
 
+            // dto => update model (ReverseMap)
+            CreateMap<Employee, EmployeeUpdateModel>()
+                .ForMember(model => model.ID, opt =>
+                    opt.MapFrom(dto => dto.ID))
+                .ForMember(model => model.FullName, opt =>
+                    opt.MapFrom(dto => dto.FullName))
+                .ForMember(model => model.Address, opt =>
+                    opt.MapFrom(dto => dto.Address ?? string.Empty))
+                .ForMember(model => model.PhoneNumber, opt =>
+                    opt.MapFrom(dto => dto.PhoneNumber ?? string.Empty))
+                .ForMember(model => model.Salary, opt =>
+                    opt.MapFrom(dto => dto.Salary))
+                .ForMember(model => model.BirthDate, opt =>
+                    opt.MapFrom(dto => dto.BirthDate))
+                .ForMember(model => model.HireDate, opt =>
+                    opt.MapFrom(dto => dto.HireDate))
+                /*.ForMember(model => model.CompanyID, opt =>
+                    opt.MapFrom(dto => dto.CompanyID))*/
+                .ForMember(model => model.DepartamentID, opt =>
+                    opt.MapFrom(dto => dto.DepartamentID))
+                .ForMember(model => model.PositionID, opt =>
+                    opt.MapFrom(dto => dto.PositionID))
+                .ReverseMap();
+
             // model => dto
             CreateMap<EmployeeFilterModel, EmployeeFilter>()
                 .ForMember(dto => dto.FullName, opt =>

@@ -25,7 +25,7 @@ namespace TestUkrposhta.Repositories
             return await db.QueryAsync<T>(sql);
         }
 
-        public async Task<T?> GetItemAsync(int id)
+        public async virtual Task<T?> GetItemAsync(int id)
         {
             var sql = $"SELECT * FROM [{_tableName}] WHERE ID = @id";
 

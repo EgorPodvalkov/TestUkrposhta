@@ -23,5 +23,16 @@ namespace TestUkrposhta.BusinessService
             var dtos = await _repository.GetListByFilterAsync(filter);
             return dtos;
         }
+
+        public async Task<Employee?> GetEmployeeAsync(int id)
+        {
+            var dto = await _repository.GetItemAsync(id);
+            return dto;
+        }
+
+        public async Task UpdateEmployeeAsync(Employee employee)
+        {
+            await _repository.UpdateAsync(employee);
+        }
     }
 }

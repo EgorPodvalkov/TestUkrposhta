@@ -10,11 +10,8 @@
         public DateTime BirthDate { get; set; }
         public DateTime HireDate { get; set; }
 
-        // public int CompanyID { get; set; }
         public string CompanyName { get; set; } = string.Empty;
-        // public int DepartamentID { get; set; }
         public string DepartamentName { get; set; } = string.Empty;
-        // public int PositionID { get; set; }
         public string PositionName { get; set; } = string.Empty;
     }
 }
