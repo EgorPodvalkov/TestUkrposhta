@@ -1,0 +1,54 @@
+﻿@model SalaryReportsTableModel
+@{
+    Layout = null;
+}
+
+<table id="employee-table">
+    <thead>
+        <tr>
+            <th>№</th>
+            <th>Full Name</th>
+            <th>Position</th>
+            <th>Company</th>
+            <th>Departament</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="font-weight:700">
+            <td colspan="5">Summary</td>
+            <td>@Model.Employees.Sum(x => x.Salary) uah</td>
+        </tr>
+        @if (!string.IsNullOrEmpty(Model.Error))
+        {
+            <tr>
+                <td colspan="6" align="center">
+                    @Model.Error
+                </td>
+            </tr>
+        }
+        // if no error
+        else
+        {
+            @foreach (var employee in Model.Employees)
+            {
+                <tr id="employee-@employee.ID">
+                    <td>@employee.ID</td>
+                    <td>@employee.FullName</td>
+                    <td>@employee.PositionName</td>
+                    <td>@employee.CompanyName</td>
+                    <td>@employee.DepartamentName</td>
+                    <td style="font-weight:700">@employee.Salary uah</td>
+                </tr>
+            }
+            @if (!Model.Employees.Any())
+            {
+                <tr>
+                    <td colspan="6" align="center">
+                        No emplyees finded :(
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

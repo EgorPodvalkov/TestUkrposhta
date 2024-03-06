@@ -1,0 +1,133 @@
+﻿@model EmployeeFilterDropDownListsModel
+
+<link rel="stylesheet" href="~/css/Employee.css" />
+<script src="~/js/Employee.js"></script>
+
+<fieldset id="filter-section" class="filter">
+    <table style="width:100%;">
+        <tr>
+            <td align="right">
+                <span class="field-name">Full Name</span>
+            </td>
+            <td align="left">
+                <input id="filter-fullname" type="text" style="width:70%;" placeholder="All" />
+            </td>
+            <td align="right">
+                <span class="field-name">Position</span>
+            </td>
+            <td align="left">
+                <select id="filter-position" style="width:70%;">
+                    <option value="-1" selected>All Positions</option>
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position.ID">@position.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <span class="field-name">Departament</span>
+            </td>
+            <td align="left">
+                <select id="filter-departament" style="width:70%;">
+                    <option value="-1" selected>All Departaments</option>
+                    @foreach (var departament in Model.Departaments)
+                    {
+                        <option value="@departament.ID">@departament.Name</option>
+                    }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span class="field-name">Min Salary</span>
+            </td>
+            <td align="left">
+                <input id="filter-min-salary" type="number" min="0" step="100" style="width:70%;" placeholder="0" />
+            </td>
+            <td align="right">
+                <span class="field-name">Max Salary</span>
+            </td>
+            <td align="left">
+                <input id="filter-max-salary" type="number" min="0" step="100" style="width:70%;" placeholder="Infinity" />
+            </td>
+            <td align="right">
+            </td>
+            <td align="left">
+                <input type="button" id="filter-button" onclick="onFilterButtonClick()" value="Update Table" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
+<div id="employee-section"></div>
+
+<div id="employee-card" style="display:none;">
+    <table style="width:100%;">
+        <tr>
+            <td align="right">
+                <span class="field-name">Full Name:</span>
+            </td>
+            <td align="left">
+                <input id="employee-card-fullname" type="text" style="width:70%;" />
+            </td>
+            <td align="right">
+                <span class="field-name">Birth Date:</span>
+            </td>
+            <td align="left">
+                <input id="employee-card-birthdate" type="date" style="width:70%;"  />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span class="field-name">Departament: </span>
+            </td>
+            <td align="left">
+                <select id="employee-card-departament" style="width:70%;">
+                    @foreach (var departament in Model.Departaments)
+                    {
+                        <option value="@departament.ID">@departament.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <span class="field-name">Hire Date:</span>
+            </td>
+            <td align="left">
+                <input id="employee-card-hiredate" type="date" style="width:70%;" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span class="field-name">Position: </span>
+            </td>
+            <td align="left">
+                <select id="employee-card-position" style="width:70%;">
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position.ID">@position.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <span class="field-name">Salary: </span>
+            </td>
+            <td align="left">
+                <input id="employee-card-salary" type="number" min="0" step="100" style="width:70%;" />
+            </td>
+        </tr>
+        <tr>
+            <td align="right">
+                <span class="field-name">Phone Number: </span>
+            </td>
+            <td align="left">
+                <input id="employee-card-phone" type="text" style="width:70%;" />
+            </td>
+            <td align="right">
+                <span class="field-name">Address: </span>
+            </td>
+            <td align="left">
+                <input id="employee-card-address" type="text" style="width:70%;" />
+            </td>
+        </tr>
+    </table>
+</div>
