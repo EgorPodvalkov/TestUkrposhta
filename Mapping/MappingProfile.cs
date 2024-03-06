@@ -8,6 +8,7 @@ namespace TestUkrposhta.Mapping
     {
         public MappingProfile()
         {
+            #region Employee
             // dto => read model
             CreateMap<Employee, EmployeeReadModel>()
                 .ForMember(model => model.ID, opt =>
@@ -67,7 +68,33 @@ namespace TestUkrposhta.Mapping
                     opt.MapFrom(model => model.PositionID))
                 .ForMember(dto => dto.DepartamentID, opt =>
                     opt.MapFrom(model => model.DepartamentID));
+            #endregion
 
+            #region SalaryReports
+            // dto => read model
+            CreateMap<Employee, SalaryReportsReadModel>()
+                .ForMember(model => model.ID, opt =>
+                    opt.MapFrom(dto => dto.ID))
+                .ForMember(model => model.FullName, opt =>
+                    opt.MapFrom(dto => dto.FullName))
+                .ForMember(model => model.Salary, opt =>
+                    opt.MapFrom(dto => dto.Salary))
+                .ForMember(model => model.CompanyName, opt =>
+                    opt.MapFrom(dto => dto.CompanyName ?? string.Empty))
+                .ForMember(model => model.DepartamentName, opt =>
+                    opt.MapFrom(dto => dto.DepartamentName ?? string.Empty))
+                .ForMember(model => model.PositionName, opt =>
+                    opt.MapFrom(dto => dto.PositionName ?? string.Empty));
+
+            // model => dto
+            CreateMap<SalaryReportsFilterModel, SalaryReportsFilter>()
+                .ForMember(dto => dto.PositionID, opt =>
+                    opt.MapFrom(model => model.PositionID))
+                .ForMember(dto => dto.DepartamentID, opt =>
+                    opt.MapFrom(model => model.DepartamentID));
+            #endregion
+
+            #region Company
             // dto => read model
             CreateMap<Company, CompanyReadModel>()
                 .ForMember(model => model.ID, opt =>
@@ -76,20 +103,25 @@ namespace TestUkrposhta.Mapping
                     opt.MapFrom(dto => dto.Name))
                 .ForMember(model => model.Info, opt =>
                     opt.MapFrom(dto => dto.Info));
+            #endregion
 
+            #region Departament
             // dto => read model
             CreateMap<Departament, DepartamentReadModel>()
                 .ForMember(model => model.ID, opt =>
                     opt.MapFrom(dto => dto.ID))
                 .ForMember(model => model.Name, opt =>
                     opt.MapFrom(dto => dto.Name));
+            #endregion
 
+            #region Position
             // dto => read model
             CreateMap<Position, PositionReadModel>()
                 .ForMember(model => model.ID, opt =>
                     opt.MapFrom(dto => dto.ID))
                 .ForMember(model => model.Name, opt =>
                     opt.MapFrom(dto => dto.Name));
+            #endregion
         }
     }
 }

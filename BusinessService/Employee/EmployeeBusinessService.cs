@@ -24,6 +24,12 @@ namespace TestUkrposhta.BusinessService
             return dtos;
         }
 
+        public async Task<IEnumerable<Employee>> GetSalaryReportsAsync(SalaryReportsFilter? filter = null)
+        {
+            var dtos = await _repository.GetSalaryReportsAsync(filter ?? new SalaryReportsFilter());
+            return dtos;
+        }
+
         public async Task<Employee?> GetEmployeeAsync(int id)
         {
             var dto = await _repository.GetItemAsync(id);

@@ -9,5 +9,8 @@ namespace TestUkrposhta.Repositories
 
         /// <summary> Get list of employers by filter from db </summary>
         Task<IEnumerable<Employee>> GetListByFilterAsync(EmployeeFilter filter);
+
+        /// <summary> Get list of employers with fields for salary reports by filter from db </summary>
+        Task<IEnumerable<Employee>> GetSalaryReportsAsync(SalaryReportsFilter filter);
     }
 }

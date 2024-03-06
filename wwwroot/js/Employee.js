@@ -6,7 +6,7 @@ $(() => {
 
 function onLoadScript() {
     loadEmployeeTable();
-    linkEnterToFilterButton();
+    setOnEnterButtonPress();
     card = $("#employee-card").dialog({
         classes: {
             "ui-dialog": "card"
@@ -37,7 +37,6 @@ function loadEmployeeTable(filter) {
         data: JSON.stringify(filter),
         success: (data) => {
             table.html(data);
-
         }
     });
 }
@@ -49,13 +48,21 @@ function onFilterButtonClick() {
     }
 }
 
-function linkEnterToFilterButton() {
+function setOnEnterButtonPress() {
     const enterKey = 13;
     $(document).on('keypress', function (e) {
         if (e.which == enterKey) {
-            const focusFilterSection = $("#filter-section").find(':focus').length != 0;
+            // if employee card opened
+            let isCardOpened = card.dialog("isOpen");
+            if (isCardOpened) {
+                onCardButtonSaveClick();
+                return;
+            }
+
+            // if in filter section
+            let focusFilterSection = $("#filter-section").find(':focus').length != 0;
             if (focusFilterSection) {
-                $("#filter-button").trigger("click");
+                onFilterButtonClick();
             }
         }
     });
@@ -133,7 +140,9 @@ function fillCard(employee) {
     $("#employee-card-hiredate").val(parseDate(employee.hireDate));
 
     // dropdownlist
+    $(`#employee-card-departament`).removeAttr('selected');
     $(`#employee-card-departament option[value=${employee.departamentID}]`).attr('selected', 'selected');
+    $(`#employee-card-position`).removeAttr('selected');
     $(`#employee-card-position option[value=${employee.positionID}]`).attr('selected', 'selected');
 }
 function parseDate(date) {

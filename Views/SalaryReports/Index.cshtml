@@ -1,0 +1,41 @@
+﻿@model EmployeeFilterDropDownListsModel
+
+<link rel="stylesheet" href="~/css/Employee.css" />
+<script src="~/js/SalaryReports.js"></script>
+
+<fieldset id="filter-section" class="filter">
+    <table style="width:100%;">
+        <tr>
+            <td align="right">
+                <span class="field-name">Position</span>
+            </td>
+            <td align="left">
+                <select id="filter-position" style="width:70%;">
+                    <option value="-1" selected>All Positions</option>
+                    @foreach (var position in Model.Positions)
+                    {
+                        <option value="@position.ID">@position.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <span class="field-name">Departament</span>
+            </td>
+            <td align="left">
+                <select id="filter-departament" style="width:70%;">
+                    <option value="-1" selected>All Departaments</option>
+                    @foreach (var departament in Model.Departaments)
+                    {
+                        <option value="@departament.ID">@departament.Name</option>
+                    }
+                </select>
+            </td>
+            <td align="right">
+                <input type="button" id="update-button" onclick="onUpdateButtonClick()" value="Update Table" />
+                <input type="button" id="download-button" onclick="onDownloadButtonClick()" value="Download Table" />
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
+<div id="table-section"></div>

@@ -20,6 +20,17 @@ namespace TestUkrposhta.Repositories
         private const string updateSelect =
         $@"SELECT [ID], [FullName], [Address], [PhoneNumber], [Salary], [BirthDate], [HireDate], [DepartamentID], [PositionID]
             FROM [Employees] ";
+
+        /// <summary> Select employee with fields for salary Reports </summary>
+        private const string salaryReportsSelect =
+        @$"SELECT 
+        [Employees].[ID], [Employees].[FullName], [Employees].[Salary],  
+        [Companies].[Name] as CompanyName, [Positions].[Name] as PositionName, [Departaments].[Name] as DepartamentName 
+            FROM [Employees]
+	        INNER JOIN [Positions] ON [Employees].[PositionID] = [Positions].[ID]	
+	        INNER JOIN [Companies] ON [Employees].[CompanyID] = [Companies].[ID]
+	        INNER JOIN [Departaments] ON [Employees].[DepartamentID] = [Departaments].[ID] ";
+
         #endregion
 
         public EmployeeRepository(string connectionString) : base("Employees", connectionString) { }
@@ -80,12 +91,41 @@ namespace TestUkrposhta.Repositories
             return filterCondition;
         }
 
+        private string GetFilterCondition(SalaryReportsFilter filter)
+        {
+            var filterConditions = new List<string>();
+            if (filter is not null)
+            {
+                if (filter.PositionID is not null && filter.PositionID != -1)
+                    filterConditions.Add(@$"[PositionID] = {filter.PositionID} ");
+
+                if (filter.DepartamentID is not null && filter.DepartamentID != -1)
+                    filterConditions.Add(@$"[DepartamentID] = {filter.DepartamentID} ");
+            }
+
+            var filterCondition = string.Join("AND ", filterConditions);
+
+            return filterCondition;
+        }
+
         public async override Task<Employee?> GetItemAsync(int id)
         {
             var sql = updateSelect + "WHERE [Employees].[ID] = @id";
 
             using var db = _dbConnection;
             return await db.QuerySingleOrDefaultAsync<Employee>(sql, new { id });
+        }
+
+        public async Task<IEnumerable<Employee>> GetSalaryReportsAsync(SalaryReportsFilter filter)
+        {
+            var filterCondition = GetFilterCondition(filter);
+
+            var whereSegment = !string.IsNullOrEmpty(filterCondition) ? $"WHERE {filterCondition}" : string.Empty;
+
+            var sql = salaryReportsSelect + whereSegment;
+
+            using var db = _dbConnection;
+            return await db.QueryAsync<Employee>(sql);
         }
     }
 }

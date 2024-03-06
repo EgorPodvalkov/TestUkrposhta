@@ -15,5 +15,8 @@ namespace TestUkrposhta.BusinessService
 
         /// <summary> Updates employee in db </summary>
         Task UpdateEmployeeAsync(Employee employee);
+
+        /// <summary> Get list of employers with fields for salary reports by filter from db </summary>
+        Task<IEnumerable<Employee>> GetSalaryReportsAsync(SalaryReportsFilter? filter = null);
     }
 }
